@@ -4,12 +4,14 @@ const fs = require('fs');
 const server = require('http').createServer(app);
 const nodemailer = require('nodemailer');
 const schedule = require("node-schedule");
-const ExpressPeerServer = require('peer').ExpressPeerServer;
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passportLocalMongoose = require("passport-local-mongoose");
+
+
+
 
 // ====================Socket========================
 
@@ -34,7 +36,6 @@ app.use(express.urlencoded({
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
 // ======================Database=====================
 
 app.use(session({
@@ -93,13 +94,6 @@ async function run() {
 
   const Group = new mongoose.model("Group", groupSchema);
 
-
-  //====================AGENDA====================
-
-  const Agenda = require("agenda");
-
-  //Connecting Agenda to the database
-  const agenda = new Agenda().mongo(db.connection, 'jobs');
 
 
   //=======================GET-ROUTES=======================
