@@ -80,6 +80,10 @@ video{
     border-radius: 1rem;
 
 }
+.main-videos::-webkit-scrollbar
+{
+     width: 0 !important;
+}
 
 .main-control-btns{
 	display: flex;
