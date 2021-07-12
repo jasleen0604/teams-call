@@ -172,10 +172,13 @@ async function run() {
               organiser: organiser
             }); //get id from address bar and send to ejs
           } else {
-            res.send("Request Denied");
+            res.send("Request Denied! You are not a member of this group");
           }
         }
       });
+    }
+    else{
+      res.send("Request Denied! Please login to continue.");
     }
   });
 
