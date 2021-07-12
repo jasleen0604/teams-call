@@ -468,49 +468,34 @@ async function run() {
 
         mailList.toString();
 
-        function setUpEmail(done) {
-          let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-              user: 'teams.reminder@gmail.com', //sender
-              pass: 'youcantgetmypassword@007'
-            }
-          });
-
-          // setup email data with unicode symbols
-          let mailOptions = {
-            from: '"Teams-app" <teams.reminder@gmail.com>', // sender address
-            to: mailList, // members of the meeting
-            subject: 'Meeting Reminder', // Subject line
-            text: 'You have a meeting scheduled', // plain text body
-            html: `<p>You have a meeting scheduled in ${meetingDetails.title} group,</p>
-                          <p>Login now to join the conversation- <a href="https://floating-plains-57464.herokuapp.com/login">Teams Call</a></p>` // html body
-          };
-
-          // send mail with defined transport object
-          transporter.sendMail(mailOptions, function(error, response) {
-            console.log('Message sent');
-            transporter.close();
-            done();
-          });
-        }
-
-        agenda.define('send email', { //scheduling event
-          priority: 'high',
-          concurrency: 10
-        }, async function(job, done) {
-
-          await setUpEmail(done);
+        // function setUpEmail() {
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'teams.reminder@gmail.com', //sender
+            pass: 'youcantgetmypassword@007'
+          }
         });
 
         let [year,month,day]=meetingDetails.date.split("-");
         let [hours,mins]=meetingDetails.time.split(":");
 
-        agenda.schedule(new Date(parseInt(year),parseInt(month)-1,parseInt(day),parseInt(hours),parseInt(mins)), 'send email');
-        console.log('agenda start')
-        console.log(meetingDetails.date + "," + meetingDetails.time);
-        agenda.processEvery("30 seconds");
-        agenda.start();
+        // setup email data with unicode symbols
+        let mailOptions = {
+          from: '"Teams-app" <teams.reminder@gmail.com>', // sender address
+          to: mailList, // members of the meeting
+          subject: 'Meeting Reminder', // Subject line
+          text: 'You have a meeting scheduled', // plain text body
+          html: `<p>You have been added to group <strong>${meetingDetails.title}</strong> by ${adminName},</p>
+                  <p>for a meeting scheduled at <strong>${hours}:${mins} on ${day}/${month}/${year}</strong><p/>
+                  <p>Click here to Login- <a href="https://floating-plains-57464.herokuapp.com/login">Teams Call</a></p>` // html body
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, response) {
+          console.log('Message sent');
+          transporter.close();
+        });
       }
     }
 

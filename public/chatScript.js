@@ -24,10 +24,21 @@ let currUser = name;
 let firstGroupId=document.querySelector(".currentGroup").getAttribute("data-grpID");
 currentGroupId = firstGroupId;
 //===============================================================
-if(groups.length>0){
-  socket.emit("join-group", firstGroupId);
-  socket.emit("loadChat", firstGroupId);
+
+// console.log(currentGroupId);
+
+if(currentGroupId ==""){
+  console.log(currentGroupId);
+  setTimeout(function(){
+    alert("Click on the plus icon in the left to start a conversation and join meetings");
+  },2000);
 }
+  else{
+    socket.emit("join-group", firstGroupId);
+    socket.emit("loadChat", firstGroupId);
+
+  }
+  
 
 
 // load grp chats when a grp name is clicked
@@ -127,7 +138,13 @@ socket.on("reload", function() {
 })
 
 startMeeting.addEventListener("click", function() {
-  socket.emit("join-meeting", currentGroupId);
+  if(currentGroupId == ""){
+    alert("You do not have any groups to start a meeting. Click on the plus icon on the left to start a conversation.");
+  }
+  else{
+    socket.emit("join-meeting", currentGroupId);
+  }
+  
 });
 
 socket.on("meet-link", (link, organiser) => {
