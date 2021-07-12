@@ -21,34 +21,34 @@ let currentGroupId;
 
 let currUser = name;
 
-let firstGroupId=document.querySelector(".currentGroup").getAttribute("data-grpID");
+let firstGroupId = document.querySelector(".currentGroup").getAttribute("data-grpID");
 currentGroupId = firstGroupId;
 //===============================================================
 
 // console.log(currentGroupId);
 
-if(currentGroupId ==""){
+if (currentGroupId == "") {
   console.log(currentGroupId);
-  setTimeout(function(){
+  setTimeout(function () {
     alert("Click on the plus icon in the left to start a conversation and join meetings");
-  },2000);
+  }, 2000);
 }
-  else{
-    socket.emit("join-group", firstGroupId);
-    socket.emit("loadChat", firstGroupId);
+else {
+  socket.emit("join-group", firstGroupId);
+  socket.emit("loadChat", firstGroupId);
 
-  }
-  
+}
+
 
 
 // load grp chats when a grp name is clicked
 for (let i = 0; i < groupNamesDiv.length; i++) {
-  groupNamesDiv[i].addEventListener("click", function() {
+  groupNamesDiv[i].addEventListener("click", function () {
     currentGroup.innerText = groupNames[i].innerHTML;
 
-    console.log("Group id: ",groupNames[i].getAttribute("data-grpID"));
+    console.log("Group id: ", groupNames[i].getAttribute("data-grpID"));
 
-    currentGroupId=groupNames[i].getAttribute("data-grpID");
+    currentGroupId = groupNames[i].getAttribute("data-grpID");
 
     socket.emit("join-group", currentGroupId);
     socket.emit("loadChat", currentGroupId);
@@ -112,13 +112,13 @@ socket.on("load-current-message", (sender, msg, userName) => {
 
 $('html').keydown((e) => {
   let inputMessage = document.querySelector(".chat-input");
-  if (e.which == 13 && inputMessage.value!="") {
+  if (e.which == 13 && inputMessage.value != "") {
     socket.emit("message", currUser, username, inputMessage.value, currentGroupId, roomID);
     inputMessage.value = "";
   }
 })
 
-sendButton.addEventListener("click", function() {
+sendButton.addEventListener("click", function () {
   let inputMessage = document.querySelector(".chat-input");
 
   if (inputMessage.value != "") {
@@ -133,18 +133,18 @@ sendButton.addEventListener("click", function() {
 })
 
 
-socket.on("reload", function() {
+socket.on("reload", function () {
   ul.innerHTML = "";
 })
 
-startMeeting.addEventListener("click", function() {
-  if(currentGroupId == ""){
+startMeeting.addEventListener("click", function () {
+  if (currentGroupId == "") {
     alert("You do not have any groups to start a meeting. Click on the plus icon on the left to start a conversation.");
   }
-  else{
+  else {
     socket.emit("join-meeting", currentGroupId);
   }
-  
+
 });
 
 socket.on("meet-link", (link, organiser) => {
@@ -167,7 +167,7 @@ getParticipantBtn.addEventListener("click", function () {
 
 socket.on("get-grpUserList", (grpMembers, admin) => {
 
-  participantList.innerHTML="";
+  participantList.innerHTML = "";
   grpMembers.forEach(function (member) {
     let div = document.createElement("div");
     div.className = "member-details";
@@ -187,4 +187,10 @@ socket.on("get-grpUserList", (grpMembers, admin) => {
 
   console.log("Group Members: ", grpMembers);
   console.log(admin);
+});
+
+document.addEventListener('mouseup', function (e) {
+  if (!participantList.contains(e.target)) {
+    participantList.style.display = 'none';
+  }
 });
