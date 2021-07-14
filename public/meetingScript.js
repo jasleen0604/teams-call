@@ -24,7 +24,7 @@ let conn;
 console.log("organiser:", organiser);
 console.log("Current user: ", YourName);
 
-
+//create my peer object
 var peer = new Peer();
 
 let myVideoStream;
