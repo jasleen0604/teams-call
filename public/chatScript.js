@@ -273,6 +273,7 @@ getParticipantBtn.addEventListener("click", function () {
     participantList.style.display = "none";
   }
   else {
+    if(currentGroupId != "")
     socket.emit("get-participants", currentGroupId);
   }
 })
