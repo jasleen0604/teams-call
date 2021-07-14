@@ -4,16 +4,21 @@ html {
   *,*::before,*::after {
     box-sizing: inherit;
   }
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+  }
+  h1{
+    font-size: 3rem;
+    text-align: left;
+}
+/* ---------------wave container-------------- */
 
   .wave-container > svg {
     display: block;
 
   }
-
-  body {
-    margin: 0;
-    font-family: system-ui, sans-serif;
-  }
+ 
   .wave-container {
     position: relative;
     /* background: #09F; */
@@ -21,12 +26,8 @@ html {
     text-align: center;
     overflow: hidden;
   }
-h1{
-    font-size: 3rem;
-    text-align: left;
 
-}
-/* ============================================ */
+/* ---------------------header-------------------- */
 .header{
     height: 10%;
     padding: 8px;
@@ -37,16 +38,10 @@ h1{
     color: #3A6C87;
     align-items: center;
     justify-content: space-between;
-    /* background-image: -webkit-linear-gradient(160deg, rgb(162, 217, 255, 0.5) 30%, rgb(121, 162, 191,0.5) 50%); */
 }
 
+  /* --------------------main div-------------------------- */
 
-
-  /* ---------------------------------------------- */
-  body{
-    margin: 0;
-    /* background-color: #f8f8f8; */
-}
 .sign-up-div{
     text-align: center;
 }

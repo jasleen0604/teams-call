@@ -3,10 +3,9 @@ body{
 	padding: 0;
 }
 
+/* ------------------header---------------- */
 .header{
     height: 5vh;
-      /* margin: 2vh; */
-    /* background-color: #f8f8f8; */
     display: flex;
     align-items: center;
     justify-content: start;
@@ -36,22 +35,8 @@ body{
 }
 
 
-/* ------------------------------------------ */
-#video-grid {
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-}
+/* ---------------main div---------------------- */
 
-video{
-     height: 250px;
-     width: 300px;
-     object-fit: cover;
-		 /* margin: 10px; */
-		 margin: 10px;
-		border: 3px solid #60928e;
-		border-radius: 0.5rem;
-}
 
 .main-div{
     height: 95vh;
@@ -67,6 +52,23 @@ video{
     border-radius: 1rem;
     margin: 20px;
 }
+
+/* ---------------------vidoes section--------------- */
+#video-grid {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+video{
+     height: 250px;
+     width: 300px;
+     object-fit: cover;
+	margin: 10px;
+	border: 3px solid #60928e;
+	border-radius: 0.5rem;
+}
+
 
 .main-videos{
 	flex-grow: 1;
@@ -129,6 +131,7 @@ video{
     transition: 0.2s ease;
 }
 
+/* ----------------------chat section---------------------- */
 .main-right{
 flex: 0.2;
 display: flex;
@@ -179,7 +182,7 @@ margin: 20px;
 
 }
 
-/*Drop Down*/
+/*--------------drop down-----------------*/
 
 .dropdown {
   position: relative;

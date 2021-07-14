@@ -1,7 +1,6 @@
 body{
 	margin: 0;
     padding: 0;
-    /* font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; */
     color: #424242;
 }
 hr{
@@ -11,6 +10,7 @@ hr{
 li{
     list-style: none;
 }
+/* ---------------------------header----------------------------------- */
 
 .header{
     height: 10%;
@@ -44,7 +44,7 @@ li{
     border: none;
     background: none;
 }
-/* ------------------------------ */
+/* ---------------------------main div------------------------------- */
 .main-div{
     display: flex;
     justify-content: center;
@@ -115,7 +115,7 @@ li{
 }
 
 
-/* ------------------------------------------- */
+/* --------------------group name header------------------------ */
 .grp-header{
     height: 50.2px;
     padding: 8px;
@@ -178,6 +178,7 @@ li{
     background-color: #f5f5f5;
 }
 
+/* ------------------------chat section-------------------------- */
 .chat-section{
     height: calc(100% - 67px);
     display: flex;
@@ -241,7 +242,7 @@ li{
     width: 25px;
     height: 25px;
 }
-/* ----------------Participant dropdown----------------- */
+/* -----------------------Participant dropdown---------------------- */
 
 .participant-list{
     z-index: 2;

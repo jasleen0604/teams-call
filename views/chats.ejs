@@ -9,8 +9,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
   <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
-
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   <link rel="stylesheet" href="/css/chats.css">
   <link rel="stylesheet" href="/css/formCss.css">
   
@@ -19,14 +19,18 @@
   <title>Teams Call</title>
 
   <script src="/socket.io/socket.io.js"></script>
+
   <script type="text/javascript">
     const name = `<%=name%>`;
     const username = `<%=username%>`
     let groups= `<%=groupsArr%>`[0];
   </script>
+  
 </head>
 
 <body>
+
+  <!-- ----------------header----------------------- -->
   <div class="header">
 
     <div class="header-left">
@@ -51,10 +55,11 @@
     </div>
   </div>
 
+  <!-- ----------------main body------------------ -->
   <div class="main-div">
 
+     <!-- -----------groups list section--------------- -->
     <div class="left-div">
-      <!-- -----------chat groups section--------------- -->
 
       <div class="chat-header">
         <div class="chat-heading">
@@ -79,6 +84,7 @@
       </div>
     </div>
 
+    <!-- ----------------Create new meetings container------------ -->
     <div class="modal-container" id="modalcontainer" style="display: none;">
 
         <form class="scheduleForm">
@@ -108,11 +114,11 @@
 
     </div>
 
-
-
+    <!-- -----------------Group Chat section----------------- -->
     <div class="right-div">
       <div class="grp-header">
 
+        <!-- current groupname header -->
         <div class="grp-name">
           <div>
             <img class="chat-icon" src="/images/calender.png" alt="">
@@ -121,10 +127,12 @@
           </p>
         </div>
 
+        <!-- join a meeting btn -->
         <div class="start-meeting">
           <button class="btn btn-info join-btn">Join Meeting</button>
         </div>
 
+        <!-- view participants btn -->
         <div title="View Participants" class="add-participants">
           <button  class="add-user-btn">
             <img class="add-user" src="/images/viewUsers.png" alt="">
@@ -135,11 +143,12 @@
 
       <hr>
 
+      <!-- --------main chat section----------- -->
       <div class="chat-section">
         <div class="chat-container">
           <ul class="chatList">
             <!-- <li class="left message"> -->
-            <!-- <p class="user-name">Kunal</p>Hello, welcome to the group -->
+            <!-- <p class="user-name">Jasleen</p>Hello, welcome to the group -->
             <!-- </li> -->
             <!-- <br> -->
           </ul>
@@ -152,10 +161,9 @@
           </div>
         </div>
       </div>
-
-
     </div>
 
+    <!-- participant list div -->
     <div class="participant-list" style="display:none;">
       <!-- <div class="member-details">
         <p class="member-name">Jasleen</p>
@@ -163,119 +171,8 @@
       </div> -->
     </div>
   </div>
+
   <script src="/chatScript.js" charset="utf-8"></script>
 </body>
-
-<script>
-  let addUser = document.querySelector(".add-user");
-  let addChat = document.querySelector(".new-chat-icon");
-  let sendBtn = document.querySelector(".send-icon");
-  // let delBtn = document.querySelector(".delete-chat");
-  let submitForm = document.querySelector(".submit-form");
-
-  // ---------------button event listeners for styling-----------------
-
-  // for add user icon
-  addUser.addEventListener("mouseover", function () {
-    addUser.src = "/images/viewUsers-hover.png";
-  })
-
-  addUser.addEventListener("mouseout", function () {
-    addUser.src = "/images/viewUsers.png";
-  })
-
-  // for add chat icon
-  addChat.addEventListener("mouseover", function () {
-    addChat.src = "/images/new-chat-hover.png";
-  })
-
-  addChat.addEventListener("mouseout", function () {
-    addChat.src = "/images/new-chat.png";
-  })
-
-  // for send msg btn
-  sendBtn.addEventListener("mouseover", function () {
-    // console.log("hi");
-    sendBtn.src = "/images/send-hover.png";
-  })
-
-  sendBtn.addEventListener("mouseout", function () {
-    sendBtn.src = "/images/send.png";
-  })
-
-
-  // ----------modal container---------------------
-  $(".chosen-select").chosen({
-    no_results_text: "Oops, nothing found!"
-  })
-
-  let addConversation = document.querySelector(".chat-add-icon");
-  let modalContainer = document.querySelector(".modal-container");
-
-  addConversation.addEventListener("click", function () {
-    if (modalContainer.style.display == "none") {
-      socket.emit("get-all-users");
-    } else {
-      modalContainer.style.display = "none";
-    }
-  })
-
-  socket.on("receive-all-users", (data) => {
-    let ul = document.querySelector(".checkbox-list");
-
-    ul.innerHTML = "";
-    console.log("All users fetched: ", data);
-
-    data.forEach(function (user) {
-      if (user.username != username) {
-        let li = document.createElement("li");
-        li.innerHTML = `<input name="allUsers" type="checkbox" value="${user.username}" />${user.username}`;
-        li.className = "checkbox-elements";
-        // `<li class="checkbox-elements"><input type="checkbox" />${user.username}</li>`
-        console.log(user.username);
-        ul.append(li);
-        // li.innerHTML = "";
-      }
-    });
-    modalContainer.style.display = "block";
-  });
-
-
-
-  var checkList = document.getElementById('list1');
-  checkList.getElementsByClassName('anchor')[0].onclick = function (evt) {
-    if (checkList.classList.contains('visible'))
-      checkList.classList.remove('visible');
-    else
-      checkList.classList.add('visible');
-  }
-
-  //group form validation
-
-  function validate(btn){
-    let titleInput=document.querySelector(".title").value;
-    let dateInput=document.querySelector(".date").value;
-    let timeInput=document.querySelector(".time").value;
-    let form=document.querySelector(".scheduleForm");
-
-    if(titleInput=="" || dateInput=="" || timeInput==""){
-      alert("All input fields required");
-    }
-    else{
-      form.action="/allUsers";
-      form.method="post"
-      form.submit();
-      console.log("Reached else");
-      modalContainer.style.display = "none";
-      setTimeout(delayAlert, 500);
-
-      function delayAlert() {
-        alert("Meeting created successfully, participants will be notified via email");
-      }
-    }
-  }
-
-
-</script>
 
 </html>

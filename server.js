@@ -1,19 +1,15 @@
 const express = require('express');
 const app = express();
-const fs = require('fs');
 const server = require('http').createServer(app);
 const nodemailer = require('nodemailer');
-const schedule = require("node-schedule");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passportLocalMongoose = require("passport-local-mongoose");
 
 
 
-
-// ====================Socket========================
+// =====================Socket======================
 
 const io = require('socket.io')(server);
 const {
@@ -26,7 +22,7 @@ const {
 const userS = [];
 userI = [];
 
-// ===================================================
+// ============================================================================
 
 
 app.use(express.json());
@@ -36,7 +32,9 @@ app.use(express.urlencoded({
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-// ======================Database=====================
+
+
+// ====================================Database==================================
 
 app.use(session({
   secret: "Our little secret.",
@@ -96,7 +94,7 @@ async function run() {
 
 
 
-  //=======================GET-ROUTES=======================
+  //====================================GET-ROUTES===============================
 
   app.get("/", (req, res) => {
     res.render("register");
@@ -183,7 +181,7 @@ async function run() {
   });
 
 
-  //=======================POST-ROUTES=======================
+  //================================POST-ROUTES============================
 
   //Login route
   app.post("/login", (req, res) => {
@@ -228,10 +226,11 @@ async function run() {
   });
 
 
-  // =======================Socket-Connection========================
+  // ============================Socket-Connection===========================
 
   await io.on("connection", socket => {
 
+    // fetch all users for a group 
     app.post("/allUsers", (req, res) => {
       if (req.isAuthenticated()) {
 
@@ -266,6 +265,7 @@ async function run() {
 
     console.log("connection established");
 
+    // get all users registered in the database
     socket.on("get-all-users", () => {
       User.find({}, {
         _id: 0,
@@ -280,7 +280,7 @@ async function run() {
       });
     });
 
-    // join user in a particular group
+    // join a user in a particular group
     socket.on("join-group", groupID => {
       socket.join(groupID);
     });
@@ -305,7 +305,7 @@ async function run() {
       });
     })
 
-    //save current message in the database
+    //save current message of a particular group in the database
     socket.on("message", (name, username, message, groupID, roomId) => {
       console.log("inside message");
       let data = {
@@ -358,6 +358,7 @@ async function run() {
     })
 
 
+    //adding participants to a new group
     function test(curr_user, adminName, meetingDetails, userToBeAdded, grpUserList) {
       return new Promise(async function(resolve, reject) {
         try {
@@ -407,7 +408,7 @@ async function run() {
       })
     }
 
-    //create a group, set admin, add participants, set agenda for the meeting
+    //create a group, set admin, add participants, set email reminder for the meeting
 
     async function schedule(curr_user, adminName, meetingDetails, userToBeAdded) {
       try {
@@ -453,7 +454,7 @@ async function run() {
         console.log(e)
       }
 
-      // ====================AGENDA====================
+      // =======================AGENDA FOR MEETINGS==========================
 
       function createAgenda(grpUserList) {
         let mailList = [];
@@ -520,7 +521,7 @@ async function run() {
       }); //saving the group to the database
     }
 
-    //send the roomid to chats.ejs to start a meeting
+    //send the roomid/meetlink to chats.ejs to start a meeting
     socket.on("join-meeting", groupID => {
       Group.findOne({ //fetch the meeting link
         "grpId": groupID
@@ -540,9 +541,11 @@ async function run() {
       })
     });
 
-    // ==================Meeting_Socket_Routes============================
 
 
+    // ========================Meeting-Socket-Routes=================================
+
+    //on joining a meeting
     socket.on('join-room', (roomId, userId, name, userName) => {
 
       // let userI = [];
@@ -559,11 +562,6 @@ async function run() {
       //new user joins the room
       socket.join(roomId);
 
-      // const peerDetails = {
-      //   uid: userId,
-      //   name: name,
-      //   username: userName
-      // };
 
       //let other clients in the meeting know that a new user joined
       socket.to(roomId).emit('user-connected', userId);
@@ -576,6 +574,7 @@ async function run() {
       });
 
 
+      //on disconnection from the meeting
       socket.on('disconnect', () => {
 
         var i = userS.indexOf(socket.id);
@@ -586,12 +585,14 @@ async function run() {
         userI.splice(i, 1);
       });
 
+      //fetch the list of participants in the meeting
       socket.on('get-meeting-participants', () => {
         socket.emit('all-users-inRoom', userI);
 
         console.log(userI);
       });
 
+      // hand raise
       socket.on("raise-hand-message", (message, name) => {
         io.to(roomId).emit("createMessage", message, name);
       })
@@ -605,7 +606,7 @@ async function run() {
 
 
 
-// =====================Creating-Server===================
+// =====================Creating Server===================
 
 server.listen(process.env.PORT || 3000 || 5000, (err) => {
   if (err) {

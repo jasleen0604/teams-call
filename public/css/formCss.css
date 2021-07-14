@@ -1,6 +1,8 @@
 body{
     background-color: black;
 }
+/* ------------------create new meeting group div------------------ */
+
 .modal-container{
     width: 450px;
     /* height: 500px; */
@@ -36,7 +38,8 @@ body{
 .time{
     margin-left: 20px;
 }
-/* ====================================================== */
+/* -----------------------participants dropdown-------------------- */
+
 .dropdown-check-list {
     display: inline-block;
   }
