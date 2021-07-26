@@ -1,6 +1,6 @@
 # Teams call
 
-Build as a part of Microsoft Engage 2021 Program
+Built as a part of Microsoft Engage 2021 Program
 
 [Live Project](https://teams-calling.herokuapp.com)
 
