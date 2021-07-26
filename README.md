@@ -12,7 +12,7 @@ Built as a part of Microsoft Engage 2021 Program
 A Video calling web application which lets users register and create meeting groups for real time chatting and video calling. It lets users schedule meetings and send email notifications. The video call interface has features like media controls, screen share and admin has been given the right to remove participants from the meeting.
 
 # Tech Stack
-Frontend: EJS, CSS, javaScript
+Frontend: EJS, CSS, JavaScript
 
 Backend: Node.js, Express.js
 
@@ -22,7 +22,7 @@ Packages Used:  socket.io, nodemailer, passportjs, passport local session, expre
 
 APIs Used: Peerjs (WebRTC library), MediaStreams API
 
- Deployed to: Heroku
+Deployed to: Heroku
 
 # Features
 ## User Authentication
@@ -52,7 +52,7 @@ Video Call Meetings have the following features:
 7. Link Sharing
 
 # Local Setup
-Download and run the following commands:
+Run the following commands:
 
 `npm install` (to install all the dependencies)
 
